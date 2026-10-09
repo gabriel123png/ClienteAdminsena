@@ -31,7 +31,7 @@
 
         <tbody>
 
-            @foreach($trainingCenters as $trainingCenter)
+            @foreach([] as $trainingCenter)
 
             <tr>
                 <td>{{ $trainingCenter->id }}</td>

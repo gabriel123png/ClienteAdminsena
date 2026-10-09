@@ -41,7 +41,7 @@
 
             <tbody>
 
-                @forelse($computers as $computer)
+                @forelse([]  as $computer)
 
                     <tr>
 

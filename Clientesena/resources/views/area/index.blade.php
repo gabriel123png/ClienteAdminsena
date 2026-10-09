@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($areas as $area)
+                @forelse([] as $area)
                     @php
                         $id = is_array($area) ? ($area['id'] ?? '') : ($area->id ?? '');
                         $nombre = is_array($area) ? ($area['nombre'] ?? '') : ($area->nombre ?? '');
