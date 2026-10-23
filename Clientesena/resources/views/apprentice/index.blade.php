@@ -5,7 +5,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Aprendices</h1>
-    <a href="{{ route('apprentices.create') }}" class="btn btn-success">Nuevo Aprendiz</a>
+    <a href="{{ route('api.v1.apprentice.create') }}" class="btn btn-success">Nuevo Aprendiz</a>
 </div>
 
 @if(session('success'))
@@ -38,9 +38,9 @@
                         <td>{{ data_get($apprentice, 'course.course_number', 'N/A') }}</td>
                         <td>{{ data_get($apprentice, 'computer.number', 'Sin asignar') }}</td>
                         <td class="text-nowrap">
-                            <a href="{{ route('apprentices.show', data_get($apprentice, 'id')) }}" class="btn btn-info btn-sm">Ver</a>
-                            <a href="{{ route('apprentices.edit', data_get($apprentice, 'id')) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('apprentices.destroy', data_get($apprentice, 'id')) }}" method="POST" class="d-inline">
+                            <a href="{{ route('api.v1.apprentices.show', data_get($apprentice, 'id')) }}" class="btn btn-info btn-sm">Ver</a>
+                            <a href="{{ route('api.v1.apprentices.edit', data_get($apprentice, 'id')) }}" class="btn btn-warning btn-sm">Editar</a>
+                            <form action="{{ route('api.v1.apprentices.destroy', data_get($apprentice, 'id')) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Desea eliminar este aprendiz?')">Eliminar</button>

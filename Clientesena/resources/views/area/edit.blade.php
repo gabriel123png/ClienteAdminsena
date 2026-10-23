@@ -19,7 +19,7 @@
         @endphp
 
         <form
-            action="{{ route('areas.update', $id) }}"
+            action="{{ route('api.v1.areas.update', $id) }}"
             method="POST">
 
             @csrf
@@ -48,7 +48,7 @@
             </div>
 
             <a
-                href="{{ route('areas.index') }}"
+                href="{{ route('api.v1.areas.index') }}"
                 class="btn btn-secondary">
                 Cancelar
             </a>

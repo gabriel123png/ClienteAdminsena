@@ -13,7 +13,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h1>Detalle del Área</h1>
-        <a href="{{ route('areas.index') }}" class="btn btn-secondary btn-sm">Volver</a>
+        <a href="{{ route('api.v1.areas.index') }}" class="btn btn-secondary btn-sm">Volver</a>
     </div>
 
     <div class="card-body">

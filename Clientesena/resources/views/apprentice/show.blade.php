@@ -21,8 +21,8 @@
             <dt class="col-sm-3">Curso</dt><dd class="col-sm-9">{{ data_get($apprentice, 'course.course_number', 'N/A') }}</dd>
             <dt class="col-sm-3">Computador</dt><dd class="col-sm-9">{{ data_get($apprentice, 'computer.number', 'Sin asignar') }}</dd>
         </dl>
-        <a href="{{ route('apprentices.index') }}" class="btn btn-secondary">Volver</a>
-        <a href="{{ route('apprentices.edit', data_get($apprentice, 'id')) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ route('api.v1.apprentices.index') }}" class="btn btn-secondary">Volver</a>
+        <a href="{{ route('api.v1.apprentices.edit', data_get($apprentice, 'id')) }}" class="btn btn-warning">Editar</a>
     </div>
 </div>
 @endsection

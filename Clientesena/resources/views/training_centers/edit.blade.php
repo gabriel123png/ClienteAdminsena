@@ -12,7 +12,7 @@
         $location = is_array($trainingCenter) ? ($trainingCenter['location'] ?? '') : ($trainingCenter->location ?? '');
     @endphp
 
-    <form action="{{ route('training_centers.update', $id) }}"
+    <form action="{{ route('api.v1.training_centers.update', $id) }}"
           method="POST">
 
         @csrf
@@ -51,7 +51,7 @@
             Actualizar
         </button>
 
-        <a href="{{ route('training_centers.index') }}"
+        <a href="{{ route('api.v1.training_centers.index') }}"
            class="btn btn-secondary">
             Cancelar
         </a>

@@ -3,17 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\AdminSenaApi;
+use Illuminate\Support\Facades\Http;
 
 class TrainingCenterController extends Controller
 {
-    public function __construct(private AdminSenaApi $api)
+    private function apiBaseUrl()
     {
+        return rtrim(trim((string) config('services.adminsena.url', '')), '/;');
+    }
+
+    private function fetchDataFromApi(string $url)
+    {
+        $payload = Http::acceptJson()->get($url)->throw()->json();
+
+        return is_array($payload) && array_key_exists('data', $payload)
+            ? $payload['data']
+            : $payload;
     }
 
     public function index()
     {
-        $trainingCenters = $this->api->get('/training_centers');
+        $trainingCenters = $this->fetchDataFromApi($this->apiBaseUrl() . '/training_centers');
 
         return view('training_centers.index', compact('trainingCenters'));
     }
@@ -30,24 +40,24 @@ class TrainingCenterController extends Controller
             'location' => 'required|string|max:255',
         ]);
 
-        $this->api->post('/training_centers', [
+        Http::post($this->apiBaseUrl() . '/training_centers', [
             'name' => $request->input('name'),
             'location' => $request->input('location'),
-        ]);
+        ])->throw();
 
-        return redirect()->route('training_centers.index')->with('success', 'Centro creado con éxito.');
+        return redirect()->route('api.v1.training_centers.index')->with('success', 'Centro creado con éxito.');
     }
 
     public function show($id)
     {
-        $trainingCenter = $this->api->get('/training_centers/' . $id);
+        $trainingCenter = $this->fetchDataFromApi($this->apiBaseUrl() . '/training_centers/' . $id);
 
         return view('training_centers.show', compact('trainingCenter'));
     }
 
     public function edit($id)
     {
-        $trainingCenter = $this->api->get('/training_centers/' . $id);
+        $trainingCenter = $this->fetchDataFromApi($this->apiBaseUrl() . '/training_centers/' . $id);
 
         return view('training_centers.edit', compact('trainingCenter'));
     }
@@ -59,18 +69,18 @@ class TrainingCenterController extends Controller
             'location' => 'required|string|max:255',
         ]);
 
-        $this->api->put('/training_centers/' . $id, [
+        Http::put($this->apiBaseUrl() . '/training_centers/' . $id, [
             'name' => $request->input('name'),
             'location' => $request->input('location'),
-        ]);
+        ])->throw();
 
-        return redirect()->route('training_centers.index')->with('success', 'Centro actualizado con éxito.');
+        return redirect()->route('api.v1.training_centers.index')->with('success', 'Centro actualizado con éxito.');
     }
 
     public function destroy($id)
     {
-        $this->api->delete('/training_centers/' . $id);
+        Http::delete($this->apiBaseUrl() . '/training_centers/' . $id)->throw();
 
-        return redirect()->route('training_centers.index')->with('success', 'Centro eliminado con éxito.');
+        return redirect()->route('api.v1.training_centers.index')->with('success', 'Centro eliminado con éxito.');
     }
 }

@@ -6,7 +6,7 @@
 <div class="card">
     <div class="card-header"><h1>Editar Curso</h1></div>
     <div class="card-body">
-        <form action="{{ route('courses.update', data_get($course, 'id')) }}" method="POST">
+        <form action="{{ route('api.v1.courses.update', data_get($course, 'id')) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -39,7 +39,7 @@
                 </select>
                 @error('training_center_id')<div class="text-danger">{{ $message }}</div>@enderror
             </div>
-            <a href="{{ route('courses.index') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('api.v1.courses.index') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-success">Actualizar</button>
         </form>
     </div>

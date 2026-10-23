@@ -3,17 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\AdminSenaApi;
+use Illuminate\Support\Facades\Http;
 
 class ComputerController extends Controller
 {
-    public function __construct(private AdminSenaApi $api)
+    private function apiBaseUrl()
     {
+        return rtrim(trim((string) config('services.adminsena.url', '')), '/;');
+    }
+
+    private function fetchDataFromApi(string $url)
+    {
+        $payload = Http::acceptJson()->get($url)->throw()->json();
+
+        return is_array($payload) && array_key_exists('data', $payload)
+            ? $payload['data']
+            : $payload;
     }
 
     public function index()
     {
-        $computers = $this->api->get('/computers');
+        $computers = $this->fetchDataFromApi($this->apiBaseUrl() . '/computers');
 
         return view('computer.index', compact('computers'));
     }
@@ -30,24 +40,24 @@ class ComputerController extends Controller
             'brand'  => 'required|string|max:255',
         ]);
 
-        $this->api->post('/computers', [
+        Http::post($this->apiBaseUrl() . '/computers', [
             'number' => $request->input('number'),
             'brand'  => $request->input('brand'),
-        ]);
+        ])->throw();
 
-        return redirect()->route('computers.index')->with('success', 'Computador creado con éxito.');
+        return redirect()->route('api.v1.computers.index')->with('success', 'Computador creado con éxito.');
     }
 
     public function show($id)
     {
-        $computer = $this->api->get('/computers/' . $id);
+        $computer = $this->fetchDataFromApi($this->apiBaseUrl() . '/computers/' . $id);
 
         return view('computer.show', compact('computer'));
     }
 
     public function edit($id)
     {
-        $computer = $this->api->get('/computers/' . $id);
+        $computer = $this->fetchDataFromApi($this->apiBaseUrl() . '/computers/' . $id);
 
         return view('computer.edit', compact('computer'));
     }
@@ -59,18 +69,18 @@ class ComputerController extends Controller
             'brand' => 'required|string|max:255',
         ]);
 
-        $this->api->put('/computers/' . $id, [
+        Http::put($this->apiBaseUrl() . '/computers/' . $id, [
             'number' => $request->input('number'),
             'brand' => $request->input('brand'),
-        ]);
+        ])->throw();
 
-        return redirect()->route('computers.index')->with('success', 'Computador actualizado con éxito.');
+        return redirect()->route('api.v1.computers.index')->with('success', 'Computador actualizado con éxito.');
     }
 
     public function destroy($id)
     {
-        $this->api->delete('/computers/' . $id);
+        Http::delete($this->apiBaseUrl() . '/computers/' . $id)->throw();
 
-        return redirect()->route('computers.index')->with('success', 'Computador eliminado con éxito.');
+        return redirect()->route('api.v1.computers.index')->with('success', 'Computador eliminado con éxito.');
     }
 }

@@ -2,26 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AdminSenaApi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CourseController extends Controller
 {
-    public function __construct(private AdminSenaApi $api)
+    private function apiBaseUrl()
     {
+        return rtrim(trim((string) config('services.adminsena.url', '')), '/;');
+    }
+
+    private function fetchDataFromApi(string $url)
+    {
+        $payload = Http::acceptJson()->get($url)->throw()->json();
+
+        return is_array($payload) && array_key_exists('data', $payload)
+            ? $payload['data']
+            : $payload;
     }
 
     public function index()
     {
-        $courses = $this->api->get('/courses');
+        $courses = $this->fetchDataFromApi($this->apiBaseUrl() . '/courses');
 
         return view('course.index', compact('courses'));
     }
 
     public function create()
     {
-        $areas = $this->api->get('/areas');
-        $trainingCenters = $this->api->get('/training_centers');
+        $areas = $this->fetchDataFromApi($this->apiBaseUrl() . '/areas');
+        $trainingCenters = $this->fetchDataFromApi($this->apiBaseUrl() . '/training_centers');
 
         return view('course.create', compact('areas', 'trainingCenters'));
     }
@@ -35,16 +45,16 @@ class CourseController extends Controller
             'training_center_id' => 'required|integer',
         ]);
 
-        $this->api->post('/courses', $data);
+        Http::post($this->apiBaseUrl() . '/courses', $data)->throw();
 
-        return redirect()->route('courses.index')->with('success', 'Curso registrado correctamente.');
+        return redirect()->route('api.v1.courses.index')->with('success', 'Curso registrado correctamente.');
     }
 
     public function edit(string $id)
     {
-        $course = $this->api->get('/courses/' . $id);
-        $areas = $this->api->get('/areas');
-        $trainingCenters = $this->api->get('/training_centers');
+        $course = $this->fetchDataFromApi($this->apiBaseUrl() . '/courses/' . $id);
+        $areas = $this->fetchDataFromApi($this->apiBaseUrl() . '/areas');
+        $trainingCenters = $this->fetchDataFromApi($this->apiBaseUrl() . '/training_centers');
 
         return view('course.edit', compact('course', 'areas', 'trainingCenters'));
     }
@@ -58,15 +68,15 @@ class CourseController extends Controller
             'training_center_id' => 'required|integer',
         ]);
 
-        $this->api->put('/courses/' . $id, $data);
+        Http::put($this->apiBaseUrl() . '/courses/' . $id, $data)->throw();
 
-        return redirect()->route('courses.index')->with('success', 'Curso actualizado correctamente.');
+        return redirect()->route('api.v1.courses.index')->with('success', 'Curso actualizado correctamente.');
     }
 
     public function destroy(string $id)
     {
-        $this->api->delete('/courses/' . $id);
+        Http::delete($this->apiBaseUrl() . '/courses/' . $id)->throw();
 
-        return redirect()->route('courses.index')->with('success', 'Curso eliminado correctamente.');
+        return redirect()->route('api.v1.courses.index')->with('success', 'Curso eliminado correctamente.');
     }
 }

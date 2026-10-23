@@ -6,7 +6,7 @@
 
     <h2>Registrar Centro de Formación</h2>
 
-    <form action="{{ route('training_centers.store') }}" method="POST">
+    <form action="{{ route('api.v1.training_centers.store') }}" method="POST">
 
         @csrf
 
@@ -43,7 +43,7 @@
             Guardar
         </button>
 
-        <a href="{{ route('training_centers.index') }}"
+        <a href="{{ route('api.v1.training_centers.index') }}"
            class="btn btn-secondary">
             Cancelar
         </a>

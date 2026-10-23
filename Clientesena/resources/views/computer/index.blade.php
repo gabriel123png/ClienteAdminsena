@@ -8,7 +8,7 @@
 
     <h1>Computadores</h1>
 
-    <a href="{{ route('computers.create') }}" class="btn btn-success">
+    <a href="{{ route('api.v1.computer.create') }}" class="btn btn-success">
         Nuevo Computador
     </a>
 
@@ -59,7 +59,7 @@
                         <td>
 
                             <a
-                                href="{{ route('computers.edit', $id) }}"
+                                href="{{ route('api.v1.computers.edit', $id) }}"
                                 class="btn btn-warning btn-sm">
 
                                 Editar
@@ -67,7 +67,7 @@
                             </a>
 
                             <form
-                                action="{{ route('computers.destroy', $id) }}"
+                                action="{{ route('api.v1.computers.destroy', $id) }}"
                                 method="POST"
                                 style="display:inline">
 

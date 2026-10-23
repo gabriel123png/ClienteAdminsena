@@ -2,26 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AdminSenaApi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CourseTeacherController extends Controller
 {
-    public function __construct(private AdminSenaApi $api)
+    private function apiBaseUrl()
     {
+        return rtrim(trim((string) config('services.adminsena.url', '')), '/;');
+    }
+
+    private function fetchDataFromApi(string $url)
+    {
+        $payload = Http::acceptJson()->get($url)->throw()->json();
+
+        return is_array($payload) && array_key_exists('data', $payload)
+            ? $payload['data']
+            : $payload;
     }
 
     public function index()
     {
-        $courseTeachers = $this->api->get('/course-teachers');
+        $courseTeachers = $this->fetchDataFromApi($this->apiBaseUrl() . '/course-teachers');
 
         return view('course_teacher.index', compact('courseTeachers'));
     }
 
     public function create()
     {
-        $courses = $this->api->get('/courses');
-        $teachers = $this->api->get('/teachers');
+        $courses = $this->fetchDataFromApi($this->apiBaseUrl() . '/courses');
+        $teachers = $this->fetchDataFromApi($this->apiBaseUrl() . '/teachers');
 
         return view('course_teacher.create', compact('courses', 'teachers'));
     }
@@ -33,16 +43,16 @@ class CourseTeacherController extends Controller
             'teacher_id' => 'required|integer',
         ]);
 
-        $this->api->post('/course-teachers', $data);
+        Http::post($this->apiBaseUrl() . '/course-teachers', $data)->throw();
 
-        return redirect()->route('course_teachers.index')->with('success', 'Instructor asignado al curso correctamente.');
+        return redirect()->route('api.v1.course_teachers.index')->with('success', 'Instructor asignado al curso correctamente.');
     }
 
     public function edit(string $id)
     {
-        $courseTeacher = $this->api->get('/course-teachers/' . $id);
-        $courses = $this->api->get('/courses');
-        $teachers = $this->api->get('/teachers');
+        $courseTeacher = $this->fetchDataFromApi($this->apiBaseUrl() . '/course-teachers/' . $id);
+        $courses = $this->fetchDataFromApi($this->apiBaseUrl() . '/courses');
+        $teachers = $this->fetchDataFromApi($this->apiBaseUrl() . '/teachers');
 
         return view('course_teacher.edit', compact('courseTeacher', 'courses', 'teachers'));
     }
@@ -54,15 +64,15 @@ class CourseTeacherController extends Controller
             'teacher_id' => 'required|integer',
         ]);
 
-        $this->api->put('/course-teachers/' . $id, $data);
+        Http::put($this->apiBaseUrl() . '/course-teachers/' . $id, $data)->throw();
 
-        return redirect()->route('course_teachers.index')->with('success', 'Asignación actualizada correctamente.');
+        return redirect()->route('api.v1.course_teachers.index')->with('success', 'Asignación actualizada correctamente.');
     }
 
     public function destroy(string $id)
     {
-        $this->api->delete('/course-teachers/' . $id);
+        Http::delete($this->apiBaseUrl() . '/course-teachers/' . $id)->throw();
 
-        return redirect()->route('course_teachers.index')->with('success', 'Asignación eliminada correctamente.');
+        return redirect()->route('api.v1.course_teachers.index')->with('success', 'Asignación eliminada correctamente.');
     }
 }

@@ -6,7 +6,7 @@
 <div class="card">
     <div class="card-header"><h1>Registrar Curso</h1></div>
     <div class="card-body">
-        <form action="{{ route('courses.store') }}" method="POST">
+        <form action="{{ route('api.v1.courses.store') }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label" for="course_number">Número de Curso</label>
@@ -38,7 +38,7 @@
                 </select>
                 @error('training_center_id')<div class="text-danger">{{ $message }}</div>@enderror
             </div>
-            <a href="{{ route('courses.index') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('api.v1.courses.index') }}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-success">Guardar</button>
         </form>
     </div>

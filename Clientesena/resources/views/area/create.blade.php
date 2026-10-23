@@ -12,7 +12,7 @@
 
     <div class="card-body">
 
-        <form action="{{ route('areas.store') }}" method="POST">
+        <form action="{{ route('api.v1.areas.store') }}" method="POST">
 
             @csrf
 
@@ -39,7 +39,7 @@
             </div>
 
             <a
-                href="{{ route('areas.index') }}"
+                href="{{ route('api.v1.areas.index') }}"
                 class="btn btn-secondary">
                 Cancelar
             </a>

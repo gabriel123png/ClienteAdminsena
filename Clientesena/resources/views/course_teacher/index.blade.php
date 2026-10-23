@@ -5,7 +5,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Asignaciones de cursos</h1>
-    <a href="{{ route('course_teachers.create') }}" class="btn btn-success">Asignar instructor</a>
+    <a href="{{ route('api.v1.course_teacher.create') }}" class="btn btn-success">Asignar instructor</a>
 </div>
 
 @if(session('success'))
@@ -23,8 +23,8 @@
                         <td>{{ data_get($assignment, 'course.course_number', 'N/A') }}</td>
                         <td>{{ data_get($assignment, 'teacher.name', 'N/A') }}</td>
                         <td>
-                            <a href="{{ route('course_teachers.edit', data_get($assignment, 'id')) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('course_teachers.destroy', data_get($assignment, 'id')) }}" method="POST" class="d-inline">
+                            <a href="{{ route('api.v1.course_teachers.edit', data_get($assignment, 'id')) }}" class="btn btn-warning btn-sm">Editar</a>
+                            <form action="{{ route('api.v1.course_teachers.destroy', data_get($assignment, 'id')) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Desea eliminar esta asignación?')">Eliminar</button>

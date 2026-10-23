@@ -35,7 +35,7 @@
 
                     <li>
                         <a
-                            href="{{ route('areas.index') }}"
+                            href="{{ route('api.v1.areas.index') }}"
                             class="text-white text-decoration-none">
 
                             Áreas

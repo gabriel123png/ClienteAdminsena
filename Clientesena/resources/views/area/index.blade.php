@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Áreas</h1>
-    <a href="{{ route('areas.create') }}" class="btn btn-success">
+    <a href="{{ route('api.v1.area.create') }}" class="btn btn-success">
         Nueva Área
     </a>
 </div>
@@ -47,13 +47,13 @@
                         <td>{{ $descripcion }}</td>
                         <td>
                             <a
-                                href="{{ route('areas.edit', $id) }}"
+                                href="{{ route('api.v1.areas.edit', $id) }}"
                                 class="btn btn-warning btn-sm">
                                 Editar
                             </a>
 
                             <form
-                                action="{{ route('areas.destroy', $id) }}"
+                                action="{{ route('api.v1.areas.destroy', $id) }}"
                                 method="POST"
                                 style="display:inline">
 

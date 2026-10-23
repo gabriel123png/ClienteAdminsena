@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
-class AdminSenaApiTest extends TestCase
+class ApiControllerTest extends TestCase
 {
-    public function test_course_list_uses_api_prefix_and_displays_unwrapped_api_data(): void
+    public function test_course_controller_uses_api_url_and_displays_unwrapped_api_data(): void
     {
         config([
             'services.adminsena.url' => 'http://api.adminsena.test/api;',

@@ -5,7 +5,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Cursos</h1>
-    <a href="{{ route('courses.create') }}" class="btn btn-success">Nuevo Curso</a>
+    <a href="{{ route('api.v1.course.create') }}" class="btn btn-success">Nuevo Curso</a>
 </div>
 
 @if(session('success'))
@@ -34,8 +34,8 @@
                         <td>{{ data_get($course, 'area.nombre', 'N/A') }}</td>
                         <td>{{ data_get($course, 'trainingCenter.name', 'N/A') }}</td>
                         <td>
-                            <a href="{{ route('courses.edit', data_get($course, 'id')) }}" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="{{ route('courses.destroy', data_get($course, 'id')) }}" method="POST" class="d-inline">
+                            <a href="{{ route('api.v1.courses.edit', data_get($course, 'id')) }}" class="btn btn-warning btn-sm">Editar</a>
+                            <form action="{{ route('api.v1.courses.destroy', data_get($course, 'id')) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Desea eliminar este curso?')">Eliminar</button>

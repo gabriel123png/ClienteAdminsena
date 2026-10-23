@@ -7,7 +7,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Centros de Formación</h2>
 
-        <a href="{{ route('training_centers.create') }}" class="btn btn-primary">
+        <a href="{{ route('api.v1.training_center.create') }}" class="btn btn-primary">
             Nuevo Centro
         </a>
     </div>
@@ -45,12 +45,12 @@
 
                 <td>
 
-                    <a href="{{ route('training_centers.edit', $id) }}"
+                    <a href="{{ route('api.v1.training_centers.edit', $id) }}"
                        class="btn btn-warning btn-sm">
                         Editar
                     </a>
 
-                    <form action="{{ route('training_centers.destroy', $id) }}"
+                    <form action="{{ route('api.v1.training_centers.destroy', $id) }}"
                           method="POST"
                           style="display:inline">
 

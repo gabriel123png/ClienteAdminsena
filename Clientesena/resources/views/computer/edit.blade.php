@@ -18,7 +18,7 @@
             $brand = is_array($computer) ? ($computer['brand'] ?? '') : ($computer->brand ?? '');
         @endphp
 
-        <form action="{{ route('computers.update', $id) }}" method="POST">
+        <form action="{{ route('api.v1.computers.update', $id) }}" method="POST">
 
             @csrf
             @method('PUT')
@@ -54,7 +54,7 @@
             </div>
 
             <a
-                href="{{ route('computers.index') }}"
+                href="{{ route('api.v1.computers.index') }}"
                 class="btn btn-secondary">
 
                 Cancelar

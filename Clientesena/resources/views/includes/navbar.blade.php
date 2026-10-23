@@ -102,39 +102,39 @@
 
                 {{-- ÁREAS --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('areas.index') }}">
+                    <a class="nav-link" href="{{ route('api.v1.areas.index') }}">
                         📁 Áreas
                     </a>
                 </li>
 
                 {{-- CENTROS --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('training_centers.index') }}">
+                    <a class="nav-link" href="{{ route('api.v1.training_centers.index') }}">
                         🏢 Centros de formación
                     </a>
                 </li>
 
                 {{-- COMPUTADORES --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('computers.index') }}">
+                    <a class="nav-link" href="{{ route('api.v1.computers.index') }}">
                         💻 Computadores
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('courses.index') }}">📚 Cursos</a>
+                    <a class="nav-link" href="{{ route('api.v1.courses.index') }}">📚 Cursos</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('teachers.index') }}">👩‍🏫 Instructores</a>
+                    <a class="nav-link" href="{{ route('api.v1.teachers.index') }}">👩‍🏫 Instructores</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('apprentices.index') }}">🧑‍🎓 Aprendices</a>
+                    <a class="nav-link" href="{{ route('api.v1.apprentices.index') }}">🧑‍🎓 Aprendices</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('course_teachers.index') }}">Asignaciones de cursos</a>
+                    <a class="nav-link" href="{{ route('api.v1.course_teachers.index') }}">Asignaciones de cursos</a>
                 </li>
 
             </ul>
