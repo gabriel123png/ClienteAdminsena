@@ -81,4 +81,5 @@ class AreaController extends Controller
 
         return redirect()->route('areas.index')->with('success', 'Área eliminada correctamente.');
     }
+    
 }
