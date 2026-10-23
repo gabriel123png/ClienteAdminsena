@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+
 class AreaController extends Controller
 {
     private function apiBaseUrl()
@@ -21,6 +22,7 @@ class AreaController extends Controller
     public function index()
     {
         $areas = $this->fetchDataFromApi($this->apiBaseUrl() . '/areas');
+
         return view('area.index', compact('areas'));
     }
 
@@ -31,6 +33,11 @@ class AreaController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+        ]);
+
         Http::post($this->apiBaseUrl() . '/areas', [
             'nombre' => $request->input('nombre'),
             'descripcion' => $request->input('descripcion'),
@@ -42,6 +49,7 @@ class AreaController extends Controller
     public function show($id)
     {
         $area = $this->fetchDataFromApi($this->apiBaseUrl() . '/areas/' . $id);
+
         return view('area.show', compact('area'));
     }
 
@@ -54,6 +62,11 @@ class AreaController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+        ]);
+
         Http::put($this->apiBaseUrl() . '/areas/' . $id, [
             'nombre' => $request->input('nombre'),
             'descripcion' => $request->input('descripcion'),

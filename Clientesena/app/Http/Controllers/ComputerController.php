@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ComputerController extends Controller
 {
@@ -17,17 +18,43 @@ class ComputerController extends Controller
     {
         $url = env('URL_SERVER_API');
 
-        $computers = $this->fetchDataFromApi($url . '/computers');
+        $computer = $this->fetchDataFromApi($url . '/computer');
 
-        return view('computers.index', compact('computers'));
+        return view('computer.index', compact('computer'));
+    }
+
+    public function create()
+    {
+        return view('computer.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'number' => 'required|string|max:255',
+            'brand'  => 'required|string|max:255',
+        ]);
+
+        $url = env('URL_SERVER_API');
+
+        $response = Http::post($url . '/computer', [
+            'number' => $request->input('number'),
+            'brand'  => $request->input('brand'),
+        ]);
+
+        if ($response->successful()) {
+            return redirect()->route('computers.index')->with('success', 'Computador creado con éxito.');
+        }
+
+        return back()->withInput()->with('error', 'No se pudo guardar el computador en la API.');
     }
 
     public function show($id)
     {
         $url = env('URL_SERVER_API');
 
-        $computer = $this->fetchDataFromApi($url . '/computers/' . $id);
+        $computer = $this->fetchDataFromApi($url . '/computer/' . $id);
 
-        return view('computers.show', compact('computer'));
+        return view('computer.show', compact('computer'));
     }
 }
