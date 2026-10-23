@@ -31,21 +31,26 @@
 
         <tbody>
 
-            @foreach([] as $trainingCenter)
+            @forelse($trainingCenters ?? [] as $trainingCenter)
+            @php
+                $id = is_array($trainingCenter) ? ($trainingCenter['id'] ?? '') : ($trainingCenter->id ?? '');
+                $name = is_array($trainingCenter) ? ($trainingCenter['name'] ?? '') : ($trainingCenter->name ?? '');
+                $location = is_array($trainingCenter) ? ($trainingCenter['location'] ?? '') : ($trainingCenter->location ?? '');
+            @endphp
 
             <tr>
-                <td>{{ $trainingCenter->id }}</td>
-                <td>{{ $trainingCenter->name }}</td>
-                <td>{{ $trainingCenter->location }}</td>
+                <td>{{ $id }}</td>
+                <td>{{ $name }}</td>
+                <td>{{ $location }}</td>
 
                 <td>
 
-                    <a href="{{ route('training_centers.edit', $trainingCenter->id) }}"
+                    <a href="{{ route('training_centers.edit', $id) }}"
                        class="btn btn-warning btn-sm">
                         Editar
                     </a>
 
-                    <form action="{{ route('training_centers.destroy', $trainingCenter->id) }}"
+                    <form action="{{ route('training_centers.destroy', $id) }}"
                           method="POST"
                           style="display:inline">
 
@@ -63,7 +68,11 @@
                 </td>
             </tr>
 
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="4" class="text-center">No hay centros registrados.</td>
+                </tr>
+            @endforelse
 
         </tbody>
 

@@ -12,7 +12,13 @@
 
     <div class="card-body">
 
-        <form action="{{ route('computers.update', $computer->id) }}" method="POST">
+        @php
+            $id = is_array($computer) ? ($computer['id'] ?? '') : ($computer->id ?? '');
+            $number = is_array($computer) ? ($computer['number'] ?? '') : ($computer->number ?? '');
+            $brand = is_array($computer) ? ($computer['brand'] ?? '') : ($computer->brand ?? '');
+        @endphp
+
+        <form action="{{ route('computers.update', $id) }}" method="POST">
 
             @csrf
             @method('PUT')
@@ -27,7 +33,7 @@
                     type="text"
                     name="number"
                     class="form-control"
-                    value="{{ old('number', $computer->number) }}"
+                    value="{{ old('number', $number) }}"
                     required>
 
             </div>
@@ -42,7 +48,7 @@
                     type="text"
                     name="brand"
                     class="form-control"
-                    value="{{ old('brand', $computer->brand) }}"
+                    value="{{ old('brand', $brand) }}"
                     required>
 
             </div>

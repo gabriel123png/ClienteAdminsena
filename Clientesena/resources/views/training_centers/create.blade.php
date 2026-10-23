@@ -30,7 +30,8 @@
             <input type="text"
                    name="location"
                    class="form-control"
-                   value="{{ old('location') }}">
+                   value="{{ old('location') }}"
+                   required>
 
             @error('location')
                 <div class="text-danger">{{ $message }}</div>

@@ -3,24 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Services\AdminSenaApi;
 
 class ComputerController extends Controller
 {
-    // Método privado para manejar llamadas HTTP repetitivas
-    private function fetchDataFromApi($url)
+    public function __construct(private AdminSenaApi $api)
     {
-        $response = Http::get($url);
-        return $response->json();
     }
 
     public function index()
     {
-        $url = env('URL_SERVER_API');
+        $computers = $this->api->get('/computers');
 
-        $computer = $this->fetchDataFromApi($url . '/computer');
-
-        return view('computer.index', compact('computer'));
+        return view('computer.index', compact('computers'));
     }
 
     public function create()
@@ -35,26 +30,47 @@ class ComputerController extends Controller
             'brand'  => 'required|string|max:255',
         ]);
 
-        $url = env('URL_SERVER_API');
-
-        $response = Http::post($url . '/computer', [
+        $this->api->post('/computers', [
             'number' => $request->input('number'),
             'brand'  => $request->input('brand'),
         ]);
 
-        if ($response->successful()) {
-            return redirect()->route('computers.index')->with('success', 'Computador creado con éxito.');
-        }
-
-        return back()->withInput()->with('error', 'No se pudo guardar el computador en la API.');
+        return redirect()->route('computers.index')->with('success', 'Computador creado con éxito.');
     }
 
     public function show($id)
     {
-        $url = env('URL_SERVER_API');
-
-        $computer = $this->fetchDataFromApi($url . '/computer/' . $id);
+        $computer = $this->api->get('/computers/' . $id);
 
         return view('computer.show', compact('computer'));
+    }
+
+    public function edit($id)
+    {
+        $computer = $this->api->get('/computers/' . $id);
+
+        return view('computer.edit', compact('computer'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'number' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+        ]);
+
+        $this->api->put('/computers/' . $id, [
+            'number' => $request->input('number'),
+            'brand' => $request->input('brand'),
+        ]);
+
+        return redirect()->route('computers.index')->with('success', 'Computador actualizado con éxito.');
+    }
+
+    public function destroy($id)
+    {
+        $this->api->delete('/computers/' . $id);
+
+        return redirect()->route('computers.index')->with('success', 'Computador eliminado con éxito.');
     }
 }

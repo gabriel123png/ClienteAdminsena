@@ -17,6 +17,12 @@
     </div>
 @endif
 
+@if(isset($error))
+    <div class="alert alert-danger">
+        {{ $error }}
+    </div>
+@endif
+
 <div class="card">
     <div class="card-body">
         <table class="table table-bordered table-striped">
@@ -29,7 +35,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse([] as $area)
+                @forelse($areas ?? [] as $area)
                     @php
                         $id = is_array($area) ? ($area['id'] ?? '') : ($area->id ?? '');
                         $nombre = is_array($area) ? ($area['nombre'] ?? '') : ($area->nombre ?? '');

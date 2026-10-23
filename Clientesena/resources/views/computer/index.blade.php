@@ -41,20 +41,25 @@
 
             <tbody>
 
-                @forelse([]  as $computer)
+                @forelse($computers ?? [] as $computer)
+                    @php
+                        $id = is_array($computer) ? ($computer['id'] ?? '') : ($computer->id ?? '');
+                        $number = is_array($computer) ? ($computer['number'] ?? '') : ($computer->number ?? '');
+                        $brand = is_array($computer) ? ($computer['brand'] ?? '') : ($computer->brand ?? '');
+                    @endphp
 
                     <tr>
 
-                        <td>{{ $computer->id }}</td>
+                        <td>{{ $id }}</td>
 
-                        <td>{{ $computer->number }}</td>
+                        <td>{{ $number }}</td>
 
-                        <td>{{ $computer->brand }}</td>
+                        <td>{{ $brand }}</td>
 
                         <td>
 
                             <a
-                                href="{{ route('computers.edit', $computer->id) }}"
+                                href="{{ route('computers.edit', $id) }}"
                                 class="btn btn-warning btn-sm">
 
                                 Editar
@@ -62,7 +67,7 @@
                             </a>
 
                             <form
-                                action="{{ route('computers.destroy', $computer->id) }}"
+                                action="{{ route('computers.destroy', $id) }}"
                                 method="POST"
                                 style="display:inline">
 

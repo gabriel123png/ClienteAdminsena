@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'adminsena' => [
+        'url' => env('URL_SERVER_API', ''),
+        'storage_url' => env('URL_SERVER_STORAGE'),
+    ],
+
 ];

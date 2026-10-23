@@ -6,7 +6,13 @@
 
     <h2>Editar Centro de Formación</h2>
 
-    <form action="{{ route('training_centers.update', $trainingCenter->id) }}"
+    @php
+        $id = is_array($trainingCenter) ? ($trainingCenter['id'] ?? '') : ($trainingCenter->id ?? '');
+        $name = is_array($trainingCenter) ? ($trainingCenter['name'] ?? '') : ($trainingCenter->name ?? '');
+        $location = is_array($trainingCenter) ? ($trainingCenter['location'] ?? '') : ($trainingCenter->location ?? '');
+    @endphp
+
+    <form action="{{ route('training_centers.update', $id) }}"
           method="POST">
 
         @csrf
@@ -18,7 +24,7 @@
             <input type="text"
                    name="name"
                    class="form-control"
-                   value="{{ $trainingCenter->name }}">
+                   value="{{ old('name', $name) }}">
 
             @error('name')
                 <div class="text-danger">{{ $message }}</div>
@@ -32,7 +38,8 @@
             <input type="text"
                    name="location"
                    class="form-control"
-                   value="{{ $trainingCenter->location }}">
+                   value="{{ old('location', $location) }}"
+                   required>
 
             @error('location')
                 <div class="text-danger">{{ $message }}</div>

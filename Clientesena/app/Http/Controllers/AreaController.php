@@ -2,26 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Services\AdminSenaApi;
 
 class AreaController extends Controller
 {
-    private function apiBaseUrl()
+    public function __construct(private AdminSenaApi $api)
     {
-        return rtrim((string) env('URL_SERVER_API', ''), '/');
-    }
-
-    private function fetchDataFromApi($url)
-    {
-        $response = Http::get($url);
-
-        return $response->successful() ? $response->json() : [];
     }
 
     public function index()
     {
-        $areas = $this->fetchDataFromApi($this->apiBaseUrl() . '/areas');
+        try {
+            $areas = $this->api->get('/areas');
+        } catch (RequestException $exception) {
+            if ($exception->response->status() !== 401) {
+                throw $exception;
+            }
+
+            return view('area.index', [
+                'areas' => [],
+                'error' => 'El servidor API requiere autenticación para consultar las áreas.',
+            ]);
+        }
 
         return view('area.index', compact('areas'));
     }
@@ -38,7 +42,7 @@ class AreaController extends Controller
             'descripcion' => 'nullable|string',
         ]);
 
-        Http::post($this->apiBaseUrl() . '/areas', [
+        $this->api->post('/areas', [
             'nombre' => $request->input('nombre'),
             'descripcion' => $request->input('descripcion'),
         ]);
@@ -48,14 +52,14 @@ class AreaController extends Controller
 
     public function show($id)
     {
-        $area = $this->fetchDataFromApi($this->apiBaseUrl() . '/areas/' . $id);
+        $area = $this->api->get('/areas/' . $id);
 
         return view('area.show', compact('area'));
     }
 
     public function edit($id)
     {
-        $area = $this->fetchDataFromApi($this->apiBaseUrl() . '/areas/' . $id);
+        $area = $this->api->get('/areas/' . $id);
 
         return view('area.edit', compact('area'));
     }
@@ -67,7 +71,7 @@ class AreaController extends Controller
             'descripcion' => 'nullable|string',
         ]);
 
-        Http::put($this->apiBaseUrl() . '/areas/' . $id, [
+        $this->api->put('/areas/' . $id, [
             'nombre' => $request->input('nombre'),
             'descripcion' => $request->input('descripcion'),
         ]);
@@ -77,7 +81,7 @@ class AreaController extends Controller
 
     public function destroy($id)
     {
-        Http::delete($this->apiBaseUrl() . '/areas/' . $id);
+        $this->api->delete('/areas/' . $id);
 
         return redirect()->route('areas.index')->with('success', 'Área eliminada correctamente.');
     }

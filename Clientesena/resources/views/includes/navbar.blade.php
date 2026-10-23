@@ -121,6 +121,22 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('courses.index') }}">📚 Cursos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('teachers.index') }}">👩‍🏫 Instructores</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('apprentices.index') }}">🧑‍🎓 Aprendices</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('course_teachers.index') }}">Asignaciones de cursos</a>
+                </li>
+
             </ul>
 
             {{-- USUARIO --}}
